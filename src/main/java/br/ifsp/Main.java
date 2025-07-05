@@ -5,6 +5,7 @@ import br.ifsp.model.dao.impl.TaskDaoImpl;
 import br.ifsp.model.entities.Task;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -15,8 +16,13 @@ public class Main {
         Db.createTable();
         TaskDaoImpl dao = new TaskDaoImpl(connection);
         //dao.add(new Task(10, "m", false));
+
+        //mostrar tasks
         List<Task> tasks = dao.findAll();
-        System.out.println(tasks);
+        for (Task task : tasks) {
+            System.out.println(task);
+        }
+
 
     }
 }
