@@ -1,5 +1,7 @@
 package br.ifsp.model.entities;
 
+import br.ifsp.common.Colors;
+
 public class Task {
     private int id;
     private String name;
@@ -42,10 +44,10 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", status=" + status +
-                '}';
+        String color = status ? Colors.GREEN : Colors.RED;
+        return color + String.format("%-4d | %-15s | %-12s", id, name,
+                (status ? "Concluída" : "Em andamento")) + Colors.RESET;
     }
+
+
 }
