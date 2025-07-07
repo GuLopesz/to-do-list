@@ -9,5 +9,5 @@ public interface TaskDao {
     List<Task> findById(int id);
     void add(Task task);
     void deleteById(Integer id);
-    void updateStatus(Task task);
+    void updateStatus(Integer id);
 }

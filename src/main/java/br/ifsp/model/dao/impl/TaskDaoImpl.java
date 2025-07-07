@@ -83,14 +83,9 @@ public class TaskDaoImpl implements TaskDao {
     public void add(Task task) {
         String sqlInsert = "INSERT INTO tasks (name, status) VALUES (?, ?);";
         try (PreparedStatement pstmt = conn.prepareStatement(sqlInsert)) {
-            pstmt.setString(1, "Estudar");
+            pstmt.setString(1, task.getName());
             pstmt.setBoolean(2, false);
             pstmt.executeUpdate();
-
-            pstmt.setString(1, "Ler");
-            pstmt.setBoolean(2, true);
-            pstmt.executeUpdate();
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -108,11 +103,11 @@ public class TaskDaoImpl implements TaskDao {
     }
 
     @Override
-    public void updateStatus(Task task) {
+    public void updateStatus(Integer id) {
         String sqlUpdate = "UPDATE tasks SET status = ? WHERE id = ?;";
         try(PreparedStatement pstmt = conn.prepareStatement(sqlUpdate)) {
             pstmt.setBoolean(1, true);
-            pstmt.setInt(2, task.getId());
+            pstmt.setInt(2, id);
             pstmt.executeUpdate();
 
         } catch (SQLException e) {

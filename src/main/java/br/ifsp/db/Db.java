@@ -29,7 +29,7 @@ public class Db {
 
         try (Statement stmt = conn.createStatement()) {
             stmt.execute(sqlCreate);
-            System.out.println("Tabela criada com sucesso!");
+            //System.out.println("Tabela criada com sucesso!");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

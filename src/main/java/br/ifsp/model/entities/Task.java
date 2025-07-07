@@ -5,7 +5,12 @@ public class Task {
     private String name;
     private boolean status;
 
-    public Task(int id, String name, boolean status) {
+    public Task(String name) {
+        this.name = name;
+        this.status = false;
+    }
+
+    public Task(Integer id, String name, boolean status) {
         this.id = id;
         this.name = name;
         this.status = status;
