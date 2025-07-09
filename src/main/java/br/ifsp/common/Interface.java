@@ -71,7 +71,9 @@ public class Interface {
                     System.out.print("Digite o nome da Task: ");
                     String name = sc.nextLine();
                     List<Task> byName = dao.findByName(name);
-                    System.out.println(byName);
+                    for (Task task : byName) {
+                        System.out.println(task);
+                    }
                     break;}
                 case 7:{
                     System.out.print("Digite o id da Task: ");

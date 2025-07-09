@@ -24,7 +24,8 @@ public class Db {
         String sqlCreate = "CREATE TABLE IF NOT EXISTS tasks (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "name VARCHAR(200) NOT NULL," +
-                "status BOOLEAN NOT NULL" +
+                "status BOOLEAN NOT NULL," +
+                 "taskDate TEXT" +
                 ");";
 
         try (Statement stmt = conn.createStatement()) {

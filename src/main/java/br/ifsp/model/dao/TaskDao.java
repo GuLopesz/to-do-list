@@ -10,4 +10,6 @@ public interface TaskDao {
     void add(Task task);
     void deleteById(Integer id);
     void updateStatus(Integer id);
+
+    String getCurrentTimestamp();
 }
