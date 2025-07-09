@@ -2,13 +2,13 @@ package br.ifsp.model.entities;
 
 import br.ifsp.common.Colors;
 
-import java.time.LocalDateTime;
-
 public class Task {
     private int id;
     private String name;
     private boolean status;
     private String taskDate;
+
+    public Task() {}
 
     public Task(String name) {
         this.name = name;
@@ -24,32 +24,26 @@ public class Task {
     }
 
     public int getId() {
-
         return id;
     }
 
     public void setId(int id) {
-
         this.id = id;
     }
 
     public String getName() {
-
         return name;
     }
 
     public void setName(String name) {
-
         this.name = name;
     }
 
     public boolean isStatus() {
-
         return status;
     }
 
     public void setStatus(boolean status) {
-
         this.status = status;
     }
 
@@ -69,7 +63,4 @@ public class Task {
 
         return color + String.format("%-4d | %-15s | %-12s%s", id, name, statusStr, dateStr) + Colors.RESET;
     }
-
-
-
 }

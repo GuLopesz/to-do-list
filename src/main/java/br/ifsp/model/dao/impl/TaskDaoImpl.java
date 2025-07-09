@@ -2,16 +2,13 @@ package br.ifsp.model.dao.impl;
 
 import br.ifsp.model.dao.TaskDao;
 import br.ifsp.model.entities.Task;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-
 public class TaskDaoImpl implements TaskDao {
-
 
     private final Connection conn;
 
@@ -59,12 +56,11 @@ public class TaskDaoImpl implements TaskDao {
             throw new RuntimeException(e);
         }
         return tasks;
-
     }
 
     @Override
     public List<Task> findById(int id) {
-        String sqlSelect = "SELECT id, name, status FROM tasks WHERE id = ?;";
+        String sqlSelect = "SELECT id, name, status, taskDate FROM tasks WHERE id = ?;";
         List<Task> tasks = new ArrayList<>();
         try (PreparedStatement pstmt = conn.prepareStatement(sqlSelect)) {
              pstmt.setInt(1, id);
@@ -81,9 +77,7 @@ public class TaskDaoImpl implements TaskDao {
             throw new RuntimeException(e);
         }
         return tasks;
-
     }
-
 
     @Override
     public void add(Task task) {
@@ -122,11 +116,56 @@ public class TaskDaoImpl implements TaskDao {
         }
     }
 
-
     @Override
     public String getCurrentTimestamp(){
         LocalDateTime currentTime = LocalDateTime.now();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return currentTime.format(dateFormatter);
+    }
+
+    @Override
+    public List<Task> filterTaskInProgress() {
+        String sqlSelect = "SELECT id, name, status, taskDate FROM tasks WHERE status = ?;";
+        List<Task> tasks = new ArrayList<>();
+
+        try(PreparedStatement pstmt = conn.prepareStatement(sqlSelect)) {
+            pstmt.setBoolean(1, false);
+            ResultSet rs = pstmt.executeQuery();
+
+            while(rs.next()) {
+                Task task = new Task();
+                task.setId(rs.getInt("id"));
+                task.setName(rs.getString("name"));
+                task.setStatus(rs.getBoolean("status"));
+                task.setTaskDate(rs.getString("taskDate"));
+                tasks.add(task);
+            }
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return tasks;
+    }
+
+    @Override
+    public List<Task> filterTaskCompleted(){
+        String sqlSelect = "SELECT id, name, status, taskDate FROM tasks WHERE status = ?;";
+        List<Task> tasks = new ArrayList<>();
+
+        try(PreparedStatement pstmt = conn.prepareStatement(sqlSelect)){
+            pstmt.setBoolean(1, true);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()){
+                Task task = new Task();
+                task.setId(rs.getInt("id"));
+                task.setName(rs.getString("name"));
+                task.setStatus(rs.getBoolean("status"));
+                task.setTaskDate(rs.getString("taskDate"));
+                tasks.add(task);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return tasks;
     }
 }

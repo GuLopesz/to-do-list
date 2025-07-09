@@ -3,7 +3,6 @@ package br.ifsp.common;
 import br.ifsp.db.Db;
 import br.ifsp.model.dao.impl.TaskDaoImpl;
 import br.ifsp.model.entities.Task;
-
 import java.sql.Connection;
 import java.util.List;
 import java.util.Scanner;
@@ -11,12 +10,11 @@ import java.util.Scanner;
 public class Interface {
     public static void menu() {
         Scanner sc = new Scanner(System.in);
-        int op;
+        int menuOption;
 
         Connection connection = Db.getConnection();
         Db.createTable();
         TaskDaoImpl dao = new TaskDaoImpl(connection);
-        //dao.add(new Task(10, "m", false));
 
         do {
             System.out.print("\n\tTO DO LIST\n\n");
@@ -30,10 +28,10 @@ public class Interface {
             System.out.println("8. Sair");
             System.out.print("Escolha uma opção: ");
 
-            op = sc.nextInt();
+            menuOption = sc.nextInt();
             sc.nextLine();
 
-            switch (op) {
+            switch (menuOption) {
                 case 1:{
                     List<Task> tasks = dao.findAll();
                     for (Task task : tasks) {
@@ -55,6 +53,26 @@ public class Interface {
                     dao.deleteById(id);
                     break;}
                 case 4:{
+                    System.out.println("1. Filtrar tasks em andamento.");
+                    System.out.println("2. Filtrar tasks concluídas.");
+
+                    int filterOption = sc.nextInt();
+                    sc.nextLine();
+
+                    switch (filterOption) {
+                        case 1:{
+                            List<Task> tasksInProgress = dao.filterTaskInProgress();
+                            for (Task task : tasksInProgress) {
+                                System.out.println(task);
+                            }
+                            break;}
+                        case 2:{
+                            List<Task> taskCompleted = dao.filterTaskCompleted();
+                            for (Task task : taskCompleted) {
+                                System.out.println(task);
+                            }
+                        }
+                    }
 
                     break;}
                 case 5:{
@@ -65,7 +83,6 @@ public class Interface {
                     System.out.print("Digite o id da Task: ");
                     Integer id = sc.nextInt();
                     dao.updateStatus(id);
-
                     break;}
                 case 6:{
                     System.out.print("Digite o nome da Task: ");
@@ -83,11 +100,8 @@ public class Interface {
                     break;}
 
                 default:
-                    System.out.println("Opção inválida!");
+                    System.out.println("Encerrando a aplicação!");
             }
-        } while (op != 8);
+        } while (menuOption != 8);
     }
-
-
-
 }
